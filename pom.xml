@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.sullivan</groupId>
-	<artifactId>DISC</artifactId>
+	<artifactId>DISC-Project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>DISC</name>
 	<description>DISC</description>
