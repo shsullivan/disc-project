@@ -1,12 +1,13 @@
 package com.sullivan.disc.repository;
 
 import com.sullivan.disc.model.Disc;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-
+@Repository
 public class DiscRepositoryInMemory implements DiscRepository {
 
     // Attributes
@@ -62,8 +63,13 @@ public class DiscRepositoryInMemory implements DiscRepository {
     }
 
     @Override
-    public void deleteById(int id) {
-        discRepo.remove(id);
+    public boolean deleteById(int id) {
+        Disc disc = discRepo.get(id);
+        if (disc != null) {
+            discRepo.remove(id);
+            return true;
+        }
+        return false;
     }
 
     @Override

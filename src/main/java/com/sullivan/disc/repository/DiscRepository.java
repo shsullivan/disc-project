@@ -22,7 +22,7 @@ public interface DiscRepository {
 
     List<Disc> findSoldDiscs();
 
-    void deleteById(int id);
+    boolean deleteById(int id);
 
     boolean markAsReturned(int id);
 
