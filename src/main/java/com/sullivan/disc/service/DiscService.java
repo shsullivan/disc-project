@@ -39,16 +39,6 @@ public class DiscService {
         return discRepository.deleteById(id);
     }
 
-    public boolean markAsReturned(int id) {
-        return discRepository.markAsReturned(id);
-    }
-
-    public boolean markAsSold(int id) {
-        return discRepository.markAsSold(id);
-    }
-
-
-
     public List<DiscDTO> getAllDiscs() {
         return discRepository.findAll().stream().map(discMapper::discToDiscDTO).collect(Collectors.toList());
     }
