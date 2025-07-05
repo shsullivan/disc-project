@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DiscRepositoryInMemoryTest {
 
-    private DiscRepositoryInMemory discRepo;
+    private com.sullivan.disc.repository.DiscRepositoryInMemory discRepo;
 
     @BeforeEach
     void setup() {
-        discRepo = new DiscRepositoryInMemory();
+        discRepo = new com.sullivan.disc.repository.DiscRepositoryInMemory();
     }
 
     private Disc generateTestDisc() {
