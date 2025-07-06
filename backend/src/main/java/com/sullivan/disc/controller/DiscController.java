@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:5173") // Vite dev server port
+@CrossOrigin(origins = "http://localhost:5174") // Vite dev server port
 @RestController
 @RequestMapping("/api/discs")
 public class DiscController {
@@ -90,9 +90,16 @@ public class DiscController {
         return discService.updateMSRP(id, MSRP) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("api/discs/import")
+    @PostMapping("/import")
     public ResponseEntity<ImportResultDTO> importFromFile(@RequestParam("file") MultipartFile file) throws IOException {
         ImportResultDTO resultDTO = discService.importFromTextFile(file);
         return ResponseEntity.ok(resultDTO);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Disc> updateDisc(@PathVariable int id, @RequestBody Disc updatedDisc) {
+        return discService.updateDisc(id, updatedDisc)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

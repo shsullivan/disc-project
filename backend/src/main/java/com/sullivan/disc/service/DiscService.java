@@ -7,6 +7,7 @@ import com.sullivan.disc.mapper.DiscMapper;
 import com.sullivan.disc.model.Disc;
 import com.sullivan.disc.repository.DiscRepository;
 import com.sullivan.disc.util.DiscValidator;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -143,6 +144,31 @@ public class DiscService {
             }
         }
         return new ImportResultDTO(successes, failures);
+    }
+    public Optional<Disc> updateDisc(int discID, Disc updatedDisc) {
+        Optional<Disc> existingOpt = discRepository.findById(discID);
+
+        if (existingOpt.isPresent()) {
+            Disc existing = existingOpt.get();
+
+            existing.setManufacturer(updatedDisc.getManufacturer());
+            existing.setMold(updatedDisc.getMold());
+            existing.setPlastic(updatedDisc.getPlastic());
+            existing.setColor(updatedDisc.getColor());
+            existing.setCondition(updatedDisc.getCondition());
+            existing.setDescription(updatedDisc.getDescription());
+            existing.setContactFirstName(updatedDisc.getContactFirstName());
+            existing.setContactLastName(updatedDisc.getContactLastName());
+            existing.setContactPhone(updatedDisc.getContactPhone());
+            existing.setFoundAt(updatedDisc.getFoundAt());
+            existing.setReturned(updatedDisc.isReturned());
+            existing.setSold(updatedDisc.isSold());
+            existing.setMSRP(updatedDisc.getMSRP());
+
+            return Optional.of(discRepository.save(existing));
+        }
+
+        return Optional.empty();
     }
 
 
