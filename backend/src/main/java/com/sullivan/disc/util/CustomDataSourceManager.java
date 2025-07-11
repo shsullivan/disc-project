@@ -8,6 +8,7 @@
 
 package com.sullivan.disc.util;
 
+import com.sullivan.disc.dto.DbLoginRequest;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.stereotype.Service;
 
