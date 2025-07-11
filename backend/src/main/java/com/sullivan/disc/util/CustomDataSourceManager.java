@@ -1,3 +1,5 @@
+package com.sullivan.disc.util;
+
 /*
  * Shawn Sullivan
  * CEN 3024C-31774
@@ -5,8 +7,6 @@
  * This utility class dynamically constructs and manages the standalone database access facilitating a user login
  * function.
  */
-
-package com.sullivan.disc.util;
 
 import com.sullivan.disc.dto.DbLoginRequest;
 import com.zaxxer.hikari.HikariDataSource;
