@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DbLoginRequest {
+public class DbLoginRequestDTO {
 
     // Attributes
     public String host;

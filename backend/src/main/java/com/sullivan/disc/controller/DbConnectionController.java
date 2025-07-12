@@ -8,7 +8,7 @@ package com.sullivan.disc.controller;
  * service layer to initialize the standalone database in MySQL
  */
 
-import com.sullivan.disc.dto.DbLoginRequest;
+import com.sullivan.disc.dto.DbLoginRequestDTO;
 import com.sullivan.disc.util.CustomDataSourceManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class DbConnectionController {
 
     // End point for POST method from GUI login page.
     @PostMapping("/connect")
-    public ResponseEntity<String> connect(@RequestBody DbLoginRequest request) {
+    public ResponseEntity<String> connect(@RequestBody DbLoginRequestDTO request) {
         try {
             dataSourceManager.initDataSource(request);
             return ResponseEntity.ok("Connected successfully");

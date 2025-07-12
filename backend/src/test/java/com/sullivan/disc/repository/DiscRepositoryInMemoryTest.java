@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DiscRepositoryInMemoryTest {
 
-    private com.sullivan.disc.repository.DiscRepositoryInMemory discRepo;
+
 
     @BeforeEach
     void setup() {
-        discRepo = new com.sullivan.disc.repository.DiscRepositoryInMemory();
+
     }
 
     private Disc generateTestDisc() {
@@ -43,7 +43,7 @@ public class DiscRepositoryInMemoryTest {
     }
 
     @Test
-    void TestFindByContactLastName() {
+    void TestFindByContactsLastName() {
         Disc disc = generateTestDisc();
         discRepo.save(disc);
         List<Disc> result = discRepo.findByContactLastName(disc.getContactLastName());
@@ -52,7 +52,7 @@ public class DiscRepositoryInMemoryTest {
     }
 
     @Test
-    void TestFindByContactLastNameAndFail() {
+    void TestFindByContactsLastNameAndFail() {
         Disc disc = generateTestDisc();
         discRepo.save(disc);
         List<Disc> result = discRepo.findByContactLastName("Taylor");
@@ -61,7 +61,7 @@ public class DiscRepositoryInMemoryTest {
     }
 
     @Test
-    void TestFindByContactPhoneNumber() {
+    void TestFindByContactsPhoneNumber() {
         Disc disc = generateTestDisc();
         discRepo.save(disc);
         List<Disc> result = discRepo.findByContactPhoneNumber(disc.getContactPhone());
@@ -70,7 +70,7 @@ public class DiscRepositoryInMemoryTest {
     }
 
     @Test
-    void TestFindByContactPhoneNumberAndFail() {
+    void TestFindByContactsPhoneNumberAndFail() {
         Disc disc = generateTestDisc();
         discRepo.save(disc);
         List<Disc> result = discRepo.findByContactPhoneNumber("9045555555");

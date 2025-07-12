@@ -68,28 +68,6 @@ public class DiscController {
         return discService.deleteDisc(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{id}/return")
-    public ResponseEntity<Void> markReturned(@PathVariable int id) {
-        return discService.markDiscReturned(id) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
-    }
-
-    @PutMapping("/{id}/sold")
-    public ResponseEntity<Void> markSold(@PathVariable int id) {
-        return discService.markDiscSold(id) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
-    }
-
-    @PutMapping("/{id}/contact")
-    public ResponseEntity<Void> updateContact(@PathVariable int id, @RequestParam String firstName,
-                                              @RequestParam String lastName, @RequestParam String phoneNumber) {
-        return discService.updateContactInformation(id, firstName, lastName, phoneNumber)
-                ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
-    }
-
-    @PutMapping("/{id}/msrp")
-    public ResponseEntity<Void> updateMsrp(@PathVariable int id, @RequestParam double MSRP) {
-        return discService.updateMSRP(id, MSRP) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
-    }
-
     @PostMapping("/import")
     public ResponseEntity<ImportResultDTO> importFromFile(@RequestParam("file") MultipartFile file) throws IOException {
         ImportResultDTO resultDTO = discService.importFromTextFile(file);

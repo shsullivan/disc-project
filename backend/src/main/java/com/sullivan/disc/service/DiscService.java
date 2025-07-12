@@ -7,7 +7,6 @@ import com.sullivan.disc.mapper.DiscMapper;
 import com.sullivan.disc.model.Disc;
 import com.sullivan.disc.repository.DiscRepository;
 import com.sullivan.disc.util.DiscValidator;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,7 +44,7 @@ public class DiscService {
     }
 
     public List<DiscDTO> getAllReturned() {
-        return discRepository.findReturnedDiscs().stream().map(discMapper::discToDiscDTO).collect(Collectors.toList());
+        return discRepository.findByReturnedTrue().stream().map(discMapper::discToDiscDTO).collect(Collectors.toList());
     }
 
     public List<DiscDTO> getAllSold() {
@@ -57,12 +56,12 @@ public class DiscService {
     }
 
     public List<DiscDTO> findByLastName(String lastName) {
-        return discRepository.findByContactLastName(lastName).stream().map(discMapper::discToDiscDTO)
+        return discRepository.findByContactsLastName(lastName).stream().map(discMapper::discToDiscDTO)
                 .collect(Collectors.toList());
     }
 
     public List<DiscDTO> findByPhoneNumber(String phoneNumber) {
-        return discRepository.findByContactPhoneNumber(phoneNumber).stream().map(discMapper::discToDiscDTO)
+        return discRepository.findByContactsPhoneNumber(phoneNumber).stream().map(discMapper::discToDiscDTO)
                 .collect(Collectors.toList());
     }
 

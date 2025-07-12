@@ -8,8 +8,9 @@ package com.sullivan.disc.util;
  * function.
  */
 
-import com.sullivan.disc.dto.DbLoginRequest;
+import com.sullivan.disc.dto.DbLoginRequestDTO;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
@@ -17,6 +18,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 @Service
+@Getter
 public class CustomDataSourceManager {
 
     // Attributes
@@ -29,7 +31,7 @@ public class CustomDataSourceManager {
      * Args: DbLoginRequest
      * Return: Void
      */
-    public void initDataSource(DbLoginRequest request) throws SQLException {
+    public void initDataSource(DbLoginRequestDTO request) throws SQLException {
         String jdbcUrl = "jdbc:mysql://" + request.host + ":" + request.port + "/disc_system";
 
         HikariDataSource ds = new HikariDataSource();
@@ -41,10 +43,5 @@ public class CustomDataSourceManager {
         try (Connection conn = ds.getConnection()) {
             this.dataSource = ds;
         }
-    }
-
-    // Getter
-    public DataSource getDataSource() {
-        return dataSource;
     }
 }
