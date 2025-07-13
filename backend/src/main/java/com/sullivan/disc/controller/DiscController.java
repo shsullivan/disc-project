@@ -75,8 +75,8 @@ public class DiscController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Disc> updateDisc(@PathVariable int id, @RequestBody Disc updatedDisc) {
-        return discService.updateDisc(id, updatedDisc)
+    public ResponseEntity<Disc> updateDisc(@RequestBody Disc updatedDisc) {
+        return discService.updateDisc(updatedDisc)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

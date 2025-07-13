@@ -1,5 +1,7 @@
 package com.sullivan.disc.util;
 
+import java.math.BigDecimal;
+
 public final class DiscValidator {
 
     // This class is strictly for utility. To protect against instantiation, the constructor must be made private
@@ -40,10 +42,10 @@ public final class DiscValidator {
         }
     }
 
-    public static double validatePositiveDouble(String input, String fieldName) {
+    public static BigDecimal validatePositiveBigDecimal(String input, String fieldName) {
         try {
-            double value = Double.parseDouble(input.trim());
-            if (value < 0) {
+            BigDecimal value = BigDecimal.valueOf(Double.parseDouble(input.trim()));
+            if (value.compareTo(BigDecimal.ZERO) < 0) {
                 throw new IllegalArgumentException(fieldName + " must be greater than 0");
             }
             return value;

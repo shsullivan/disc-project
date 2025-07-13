@@ -4,8 +4,14 @@ import com.sullivan.disc.dto.DiscCreateDTO;
 import com.sullivan.disc.dto.DiscDTO;
 import com.sullivan.disc.dto.ImportResultDTO;
 import com.sullivan.disc.mapper.DiscMapper;
+import com.sullivan.disc.model.Contact;
 import com.sullivan.disc.model.Disc;
+import com.sullivan.disc.model.Manufacturer;
+import com.sullivan.disc.model.Mold;
+import com.sullivan.disc.repository.ContactRepository;
 import com.sullivan.disc.repository.DiscRepository;
+import com.sullivan.disc.repository.ManufacturerRepository;
+import com.sullivan.disc.repository.MoldRepository;
 import com.sullivan.disc.util.DiscValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,32 +30,76 @@ public class DiscService {
 
     private final DiscRepository discRepository;
     private final DiscMapper discMapper;
+    private final ContactRepository contactRepository;
+    private final ManufacturerRepository manufacturerRepository;
+    private final MoldRepository moldRepository;
 
-    public DiscService(DiscRepository discRepository, DiscMapper discMapper) {
+    public DiscService(DiscRepository discRepository,
+                       DiscMapper discMapper,
+                       ContactRepository contactRepository,
+                       ManufacturerRepository manufacturerRepository,
+                       MoldRepository moldRepository) {
+
         this.discRepository = discRepository;
         this.discMapper = discMapper;
+        this.contactRepository = contactRepository;
+        this.manufacturerRepository = manufacturerRepository;
+        this.moldRepository = moldRepository;
     }
 
     public DiscDTO createDisc(DiscCreateDTO dto) {
-        Disc disc = discMapper.discCreateDTOtoDisc(dto, 0);
+        // Check if contact already exists in DB
+        Optional<Contact> existingContact = contactRepository.findByFirstNameAndLastNameAndPhoneNumber(
+                dto.getContact().getFirstName(),
+                dto.getContact().getLastName(),
+                dto.getContact().getPhone()
+        );
+        Contact contact = existingContact.orElseGet(() -> {
+            Contact newContact = new Contact();
+            newContact.setFirstName(dto.getContact().getFirstName());
+            newContact.setLastName(dto.getContact().getLastName());
+            newContact.setPhoneNumber(dto.getContact().getPhone());
+            return contactRepository.save(newContact);
+        });
+
+        // Retrieve manufacturer and mold by ID sent from UI
+        Manufacturer manufacturer = manufacturerRepository.findById(dto.getManufacturer().getManufacturerId()).get();
+        Mold mold = moldRepository.findById(dto.getMold().getMoldId()).get();
+
+        // Convert DTO and other objects to Disc object
+        Disc disc = discMapper.discCreateDTOtoDisc(dto, manufacturer, mold, contact);
         discRepository.save(disc);
         return discMapper.discToDiscDTO(disc);
     }
 
-    public boolean deleteDisc(int id) {
-        return discRepository.deleteById(id);
+    // True and false values used in Controller to determine confirmation or failure message
+    public boolean deleteDisc(Integer id) {
+        if (discRepository.existsById(id)) {
+            discRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     public List<DiscDTO> getAllDiscs() {
-        return discRepository.findAll().stream().map(discMapper::discToDiscDTO).collect(Collectors.toList());
+        return discRepository.findAll()
+                             .stream()
+                             .map(discMapper::discToDiscDTO)
+                             .collect(Collectors.toList());
     }
 
     public List<DiscDTO> getAllReturned() {
-        return discRepository.findByReturnedTrue().stream().map(discMapper::discToDiscDTO).collect(Collectors.toList());
+        return discRepository.findByReturnedTrue()
+                             .stream()
+                             .map(discMapper::discToDiscDTO)
+                             .collect(Collectors.toList());
     }
 
     public List<DiscDTO> getAllSold() {
-        return discRepository.findSoldDiscs().stream().map(discMapper::discToDiscDTO).collect(Collectors.toList());
+        return discRepository.findBySoldTrue()
+                             .stream()
+                             .map(discMapper::discToDiscDTO)
+                             .collect(Collectors.toList());
     }
 
     public Optional<DiscDTO> findByID(int id) {
@@ -56,47 +107,13 @@ public class DiscService {
     }
 
     public List<DiscDTO> findByLastName(String lastName) {
-        return discRepository.findByContactsLastName(lastName).stream().map(discMapper::discToDiscDTO)
+        return discRepository.findByContact_LastName(lastName).stream().map(discMapper::discToDiscDTO)
                 .collect(Collectors.toList());
     }
 
     public List<DiscDTO> findByPhoneNumber(String phoneNumber) {
-        return discRepository.findByContactsPhoneNumber(phoneNumber).stream().map(discMapper::discToDiscDTO)
+        return discRepository.findByContact_PhoneNumber(phoneNumber).stream().map(discMapper::discToDiscDTO)
                 .collect(Collectors.toList());
-    }
-
-    public boolean markDiscReturned(int id) {
-        return discRepository.findById(id).map(disc -> {
-            disc.setReturned(true);
-            discRepository.save(disc);
-            return true;
-        }).orElse(false);
-    }
-
-    public boolean markDiscSold(int id) {
-        return discRepository.findById(id).map(disc ->  {
-            disc.setSold(true);
-            discRepository.save(disc);
-            return true;
-        }).orElse(false);
-    }
-
-    public boolean updateContactInformation(int id, String firstName, String lastName, String phoneNumber) {
-        return discRepository.findById(id).map(disc -> {
-            disc.setContactFirstName(firstName);
-            disc.setContactLastName(lastName);
-            disc.setContactPhone(phoneNumber);
-            discRepository.save(disc);
-            return true;
-        }).orElse(false);
-    }
-
-    public boolean updateMSRP(int id, double msrp) {
-        return discRepository.findById(id).map(disc ->  {
-            disc.setMSRP(msrp);
-            discRepository.save(disc);
-            return true;
-        }).orElse(false);
     }
 
     public ImportResultDTO importFromTextFile(MultipartFile file) throws IOException {
@@ -117,9 +134,8 @@ public class DiscService {
             }
 
             try {
-                int discID = 0;
-                String manufacturer = DiscValidator.validateManufacturer(attributes[0].trim());
-                String mold = DiscValidator.validateMold(attributes[1].trim());
+                String manufacturerName = DiscValidator.validateManufacturer(attributes[0].trim());
+                String moldName = DiscValidator.validateMold(attributes[1].trim());
                 String plastic = DiscValidator.validatePlastic(attributes[2].trim());
                 String color = DiscValidator.validateColor(attributes[3].trim());
                 int condition =  DiscValidator.validateCondition(attributes[4].trim());
@@ -130,10 +146,43 @@ public class DiscService {
                 String foundAt = DiscValidator.validateFoundAt(attributes[9].trim());
                 boolean returned = DiscValidator.validateBooleanInput(attributes[10].trim(), "Returned");
                 boolean sold = DiscValidator.validateBooleanInput(attributes[11].trim(), "Sold");
-                double MSRP = DiscValidator.validatePositiveDouble(attributes[12].trim(), "MSRP");
+                BigDecimal MSRP = DiscValidator.validatePositiveBigDecimal(attributes[12].trim(), "MSRP");
 
-                Disc disc = new Disc(discID, manufacturer, mold, plastic, color, condition, description,
-                                    contactFirstName, contactLastName, contactPhone, foundAt, returned, sold, MSRP);
+                // Validate and assign manufacturer
+                Manufacturer manufacturer = manufacturerRepository.findByManufacturer(manufacturerName)
+                        .orElseThrow(() -> new RuntimeException("Manufacturer " + manufacturerName + " not found"));
+
+                // Validate and assign mold
+                Mold mold = moldRepository.findByMoldAndManufacturer(moldName, manufacturer)
+                        .orElseThrow(() -> new RuntimeException("Mold " + moldName + " not found"));
+
+                // Validate and assign contact information
+                Optional<Contact> existingContact = contactRepository.findByFirstNameAndLastNameAndPhoneNumber(
+                        contactFirstName,
+                        contactLastName,
+                        contactPhone
+                );
+                Contact contact = existingContact.orElseGet(() ->
+                    contactRepository.save( new Contact(
+                            null,
+                            contactFirstName,
+                            contactLastName,
+                            contactPhone
+                    )));
+
+                Disc disc = new Disc(null,
+                                     manufacturer,
+                                     mold,
+                                     plastic,
+                                     color,
+                                     condition,
+                                     description,
+                                     contact,
+                                     foundAt,
+                                     returned,
+                                     sold,
+                                     MSRP,
+                                    null);
 
                 discRepository.save(disc);
                 successes.add("Line " + lineCount + ": Successfully imported. Disc: " + disc.getDiscID() + " created.");
@@ -144,8 +193,8 @@ public class DiscService {
         }
         return new ImportResultDTO(successes, failures);
     }
-    public Optional<Disc> updateDisc(int discID, Disc updatedDisc) {
-        Optional<Disc> existingOpt = discRepository.findById(discID);
+    public Optional<Disc> updateDisc(Disc updatedDisc) {
+        Optional<Disc> existingOpt = discRepository.findById(updatedDisc.getDiscID());
 
         if (existingOpt.isPresent()) {
             Disc existing = existingOpt.get();
@@ -156,13 +205,11 @@ public class DiscService {
             existing.setColor(updatedDisc.getColor());
             existing.setCondition(updatedDisc.getCondition());
             existing.setDescription(updatedDisc.getDescription());
-            existing.setContactFirstName(updatedDisc.getContactFirstName());
-            existing.setContactLastName(updatedDisc.getContactLastName());
-            existing.setContactPhone(updatedDisc.getContactPhone());
+            existing.setContact(updatedDisc.getContact());
             existing.setFoundAt(updatedDisc.getFoundAt());
             existing.setReturned(updatedDisc.isReturned());
             existing.setSold(updatedDisc.isSold());
-            existing.setMSRP(updatedDisc.getMSRP());
+            existing.setMsrp(updatedDisc.getMsrp());
 
             return Optional.of(discRepository.save(existing));
         }
