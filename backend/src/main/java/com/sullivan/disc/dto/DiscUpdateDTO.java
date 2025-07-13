@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DiscCreateDTO {
+public class DiscUpdateDTO {
 
     // Attributes with validation annotation
     @NotNull(message = "Manufacturer is required")
@@ -43,6 +43,10 @@ public class DiscCreateDTO {
     @NotBlank(message = "Found location is required. Enter \"N/A\" if unknown.")
     @Size(max = 50, message = "Found location cannot be longer than 50 characters")
     private String foundAt; // Course where disc was found
+
+    private boolean returned;
+
+    private boolean sold;
 
     @Positive(message = "MSRP cannot be negative")
     private BigDecimal MSRP;

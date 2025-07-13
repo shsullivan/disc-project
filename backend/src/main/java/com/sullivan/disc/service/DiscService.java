@@ -2,6 +2,7 @@ package com.sullivan.disc.service;
 
 import com.sullivan.disc.dto.DiscCreateDTO;
 import com.sullivan.disc.dto.DiscDTO;
+import com.sullivan.disc.dto.DiscUpdateDTO;
 import com.sullivan.disc.dto.ImportResultDTO;
 import com.sullivan.disc.mapper.DiscMapper;
 import com.sullivan.disc.model.Contact;
@@ -193,29 +194,43 @@ public class DiscService {
         }
         return new ImportResultDTO(successes, failures);
     }
-    public Optional<Disc> updateDisc(Disc updatedDisc) {
-        Optional<Disc> existingOpt = discRepository.findById(updatedDisc.getDiscID());
+    public Optional<DiscDTO> updateDisc(Integer id, DiscUpdateDTO dto) {
+        return discRepository.findById(id).map(existing -> {
+            // Create and validate manufacturer
+            Manufacturer manufacturer = manufacturerRepository.findById(dto.getManufacturer().getManufacturerId()).get();
 
-        if (existingOpt.isPresent()) {
-            Disc existing = existingOpt.get();
+            // Create and validate mold
+            Mold mold = moldRepository.findById(dto.getMold().getMoldId()).get();
 
-            existing.setManufacturer(updatedDisc.getManufacturer());
-            existing.setMold(updatedDisc.getMold());
-            existing.setPlastic(updatedDisc.getPlastic());
-            existing.setColor(updatedDisc.getColor());
-            existing.setCondition(updatedDisc.getCondition());
-            existing.setDescription(updatedDisc.getDescription());
-            existing.setContact(updatedDisc.getContact());
-            existing.setFoundAt(updatedDisc.getFoundAt());
-            existing.setReturned(updatedDisc.isReturned());
-            existing.setSold(updatedDisc.isSold());
-            existing.setMsrp(updatedDisc.getMsrp());
+            // Check or create new contact
+            Optional<Contact> existingContact = contactRepository.findByFirstNameAndLastNameAndPhoneNumber(
+                    dto.getContact().getFirstName(),
+                    dto.getContact().getLastName(),
+                    dto.getContact().getPhone()
+            );
 
-            return Optional.of(discRepository.save(existing));
-        }
+            Contact contact = existingContact.orElseGet(() -> contactRepository.save(
+                    new Contact(null,
+                                dto.getContact().getFirstName(),
+                                dto.getContact().getLastName(),
+                                dto.getContact().getPhone())
+            ));
 
-        return Optional.empty();
+            // Update all disc fields
+            existing.setManufacturer(manufacturer);
+            existing.setMold(mold);
+            existing.setPlastic(dto.getPlastic());
+            existing.setColor(dto.getColor());
+            existing.setCondition(dto.getCondition());
+            existing.setDescription(dto.getDescription());
+            existing.setContact(contact);
+            existing.setFoundAt(dto.getFoundAt());
+            existing.setReturned(dto.isReturned());
+            existing.setSold(dto.isSold());
+            existing.setMsrp(dto.getMSRP());
+
+            // Save disc
+            return discMapper.discToDiscDTO(discRepository.save(existing));
+        });
     }
-
-
 }

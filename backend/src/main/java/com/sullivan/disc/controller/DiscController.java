@@ -2,6 +2,7 @@ package com.sullivan.disc.controller;
 
 import com.sullivan.disc.dto.DiscCreateDTO;
 import com.sullivan.disc.dto.DiscDTO;
+import com.sullivan.disc.dto.DiscUpdateDTO;
 import com.sullivan.disc.dto.ImportResultDTO;
 import com.sullivan.disc.model.Disc;
 import com.sullivan.disc.service.DiscService;
@@ -64,7 +65,7 @@ public class DiscController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<DiscDTO> deleteDiscById(@PathVariable int id) {
+    public ResponseEntity<Void> deleteDiscById(@PathVariable int id) {
         return discService.deleteDisc(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
@@ -75,8 +76,8 @@ public class DiscController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Disc> updateDisc(@RequestBody Disc updatedDisc) {
-        return discService.updateDisc(updatedDisc)
+    public ResponseEntity<DiscDTO> updateDisc(@PathVariable Integer id, @RequestBody @Valid DiscUpdateDTO dto) {
+        return discService.updateDisc(id, dto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
