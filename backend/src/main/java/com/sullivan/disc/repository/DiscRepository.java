@@ -7,17 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface DiscRepository extends JpaRepository<Disc, Long> {
+public interface DiscRepository extends JpaRepository<Disc, Integer> {
 
-    List<Disc> findByContactsLastName(String lastName);
+    List<Disc> findByContact_LastName(String contactLastName);
 
-    List<Disc> findByContactsPhoneNumber(String phoneNumber);
-
-    List<Disc> findAll();
+    List<Disc> findByContact_PhoneNumber(String contactPhoneNumber);
 
     List<Disc> findByReturnedTrue();
 
     List<Disc> findBySoldTrue();
-
-    boolean deleteById(int id);
 }

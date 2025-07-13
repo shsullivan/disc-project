@@ -1,26 +1,23 @@
 package com.sullivan.disc.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.math.BigDecimal;
 
 // Lombok annotation to avoid boiler plate
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiscCreateDTO {
 
     // Attributes with validation annotation
-    @NotBlank(message = "Manufacturer is required")
-    @Size(max = 20, message = "Manufacturer cannot be longer than 20 characters")
-    private String manufacturer;
+    @NotNull(message = "Manufacturer is required")
+    private ManufacturerDTO manufacturer;
 
-    @NotBlank(message = "Mold is required")
-    @Size(max = 20, message = "Mold cannot be longer than 20 characters")
-    private String mold;
+    @NotNull(message = "Mold is required")
+    private MoldDTO mold;
 
     @NotBlank(message = "Plastic is required")
     @Size(max = 20, message = "Plastic cannot be longer than 20 characters")
@@ -39,23 +36,15 @@ public class DiscCreateDTO {
     @Size(max = 50, message = "Description has a max length of 50 characters")
     private String description;
 
-
-    @NotBlank(message = "Contact first name is required. Enter \"N/A\" if unknown.")
-    @Size(max = 50, message = "Contact first name cannot be longer than 50 characters")
-    private String contactFirstName;
-
-    @NotBlank(message = "Contact last name is required. Enter \"N/A\" if unknown.")
-    @Size(max = 50, message = "Contact last name cannot be longer than 50 characters")
-    private String contactLastName;
-
-    @Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
-    private String contactPhone;
+    @Valid
+    @NotNull(message = "Contact information is required. Enter \"N/A\" if unknown")
+    private ContactDTO contact;
 
     @NotBlank(message = "Found location is required. Enter \"N/A\" if unknown.")
     @Size(max = 50, message = "Found location cannot be longer than 50 characters")
     private String foundAt; // Course where disc was found
 
     @Positive(message = "MSRP cannot be negative")
-    private double MSRP;
+    private BigDecimal MSRP;
 
 }

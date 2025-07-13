@@ -1,15 +1,13 @@
 package com.sullivan.disc.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.math.BigDecimal;
 
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "discs")
 public class Disc {
@@ -17,29 +15,45 @@ public class Disc {
     // Attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long discID;
+    @Column(name = "disc_id", nullable = false)
+    private Integer discID;
 
-    private String manufacturer;
-    private String mold;
+    @ManyToOne
+    @JoinColumn(name = "manufacturer_id", nullable = false)
+    private Manufacturer manufacturer;
+
+    @ManyToOne
+    @JoinColumn(name = "mold_id", nullable = false)
+    private Mold mold;
+
+    @Column(name = "plastic", nullable = false)
     private String plastic;
+
+    @Column(name = "color", nullable = false)
     private String color;
-    private int condition;
+
+    @Column(name = "condition", nullable = false)
+    private Integer condition;
+
+    @Column(name = "description")
     private String description;
-    private String contactFirstName;
-    private String contactLastName;
-    private String contactPhone;
+
+    @ManyToOne
+    @JoinColumn(name = "contact_id", nullable = false)
+    private Contact contact;
+
+    @Column(name = "found_at", nullable = false)
     private String foundAt; // Course where disc was found
+
+    @Column(name = "returned", nullable = false)
     private boolean returned;
+
+    @Column(name = "sold", nullable = false)
     private boolean sold;
-    private double MSRP;
+
+    @Column(name = "msrp", nullable = false)
+    private BigDecimal msrp;
 
     @Column(insertable = false, updatable = false) // Resale value is now calculated @ the DB level
-    private double resaleValue;
-
-    @Override
-    public String toString() {
-        return discID + "|" + manufacturer + "|" + mold + "|" + plastic + "|" + color + "|" + condition + "|" +
-                description + "|" + contactFirstName + " " + contactLastName + "|" + contactPhone + "|" + foundAt + "|"
-                + returned + "|" + sold + "|" + MSRP + "|" + resaleValue;
-    }
+    private BigDecimal resaleValue;
 }

@@ -211,7 +211,7 @@ public class DiscRepositoryInMemoryTest {
         discRepo.save(disc);
         boolean result = discRepo.updateMSRP(disc.getDiscID(), 24.99);
         assertTrue(result);
-        assertEquals(24.99, disc.getMSRP(), 0.0001);
+        assertEquals(24.99, disc.getMsrp(), 0.0001);
     }
 
     @Test
@@ -220,7 +220,7 @@ public class DiscRepositoryInMemoryTest {
         discRepo.save(disc);
         boolean result = discRepo.updateMSRP(999, 24.99);
         assertFalse(result);
-        assertEquals(19.99, disc.getMSRP(), 0.0001);
+        assertEquals(19.99, disc.getMsrp(), 0.0001);
     }
 
     @Test
@@ -229,6 +229,6 @@ public class DiscRepositoryInMemoryTest {
         discRepo.save(disc);
         boolean result = discRepo.updateMSRP(1, 0.0);
         assertFalse(result);
-        assertEquals(19.99, disc.getMSRP(), 0.0001);
+        assertEquals(19.99, disc.getMsrp(), 0.0001);
     }
 }
