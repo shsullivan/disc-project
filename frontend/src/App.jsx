@@ -1,6 +1,6 @@
 import './App.css'
 import MainApp from './pages/MainApp.jsx'
-import LandingPage from './pages/LandingPage.jsx'
+import LandingPage from './pages/DatabaseLogin.jsx'
 import AddDisc from './pages/AddDisc.jsx'
 import ImportDiscs from './pages/ImportDiscs.jsx'
 import DeleteDisc from './pages/DeleteDisc.jsx'
@@ -11,11 +11,13 @@ import ViewReturnedDiscs from './pages/ViewReturnedDiscs.jsx'
 import ViewSoldDiscs from './pages/ViewSoldDiscs.jsx'
 import UpdateInformation from './pages/UpdateInfo.jsx'
 import {Route, Routes} from "react-router-dom";
+import DatabaseLogin from "./pages/DatabaseLogin.jsx";
 
 function App() {
+
     return (
         <Routes>
-            <Route path={"/"} element={<LandingPage />} />
+            <Route path={"/"} element={<DatabaseLogin />} />
             <Route path={"/main"} element={<MainApp />} />
             <Route path={"/add"} element={<AddDisc />} />
             <Route path={"/import"} element={<ImportDiscs />} />

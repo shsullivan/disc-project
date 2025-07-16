@@ -39,15 +39,15 @@ function ViewAllDiscs() {
                     {discs.map(disc => (
                         <tr key={disc.discID}>
                             <td>{disc.discID}</td>
-                            <td>{disc.manufacturer}</td>
-                            <td>{disc.mold}</td>
+                            <td>{disc.manufacturer?.manufacturer}</td>
+                            <td>{disc.mold?.mold}</td>
                             <td>{disc.plastic}</td>
                             <td>{disc.color}</td>
                             <td>{disc.condition}</td>
                             <td>{disc.description}</td>
-                            <td>{disc.contactFirstName}</td>
-                            <td>{disc.contactLastName}</td>
-                            <td>{disc.contactPhone}</td>
+                            <td>{disc.contact?.firstName}</td>
+                            <td>{disc.contact?.lastName}</td>
+                            <td>{disc.contact?.phone}</td>
                             <td>{disc.foundAt}</td>
                             <td>{disc.returned ? 'Yes' : 'No'}</td>
                             <td>{disc.sold ? 'Yes' : 'No'}</td>

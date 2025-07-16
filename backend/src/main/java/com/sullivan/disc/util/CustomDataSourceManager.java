@@ -10,12 +10,19 @@ package com.sullivan.disc.util;
 
 import com.sullivan.disc.dto.DbLoginRequestDTO;
 import com.zaxxer.hikari.HikariDataSource;
+import jakarta.persistence.EntityManagerFactory;
 import lombok.Getter;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Getter
@@ -23,6 +30,8 @@ public class CustomDataSourceManager {
 
     // Attributes
     private DataSource dataSource;
+    private EntityManagerFactory entityManagerFactory;
+    private PlatformTransactionManager transactionManager;
 
     /*
      * Method: InitDataSource
@@ -38,10 +47,32 @@ public class CustomDataSourceManager {
         ds.setJdbcUrl(jdbcUrl);
         ds.setUsername(request.username);
         ds.setPassword(request.password);
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
         // Test the connection
         try (Connection conn = ds.getConnection()) {
             this.dataSource = ds;
         }
+
+        // Set up JPA EntityManagerFactory to allow for custom login
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setDataSource(ds);
+        factory.setPackagesToScan("com.sullivan.disc.model");
+        factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+        Map<String, Object> jpaProperties = new HashMap<>();
+        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        jpaProperties.put("hibernate.hbm2ddl.auto", "none");
+        jpaProperties.put("hibernate.show_sql", true);
+        factory.setJpaPropertyMap(jpaProperties);
+
+        factory.afterPropertiesSet();
+        EntityManagerFactory emf = factory.getObject();
+        if (emf == null) {
+            throw new IllegalStateException("Could not get EntityManagerFactory");
+        }
+
+        this.entityManagerFactory = emf;
+        this.transactionManager = new JpaTransactionManager(this.entityManagerFactory);
     }
 }

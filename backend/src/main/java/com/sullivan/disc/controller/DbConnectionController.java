@@ -12,11 +12,12 @@ import com.sullivan.disc.dto.DbLoginRequestDTO;
 import com.sullivan.disc.util.CustomDataSourceManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = {
+        "http://localhost:5174",
+        "http://localhost:5173"
+})
 @RestController
 @RequestMapping("/api/db")
 public class DbConnectionController {
@@ -39,5 +40,6 @@ public class DbConnectionController {
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Connection failed: " + e.getMessage());
         }
+
     }
 }

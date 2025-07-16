@@ -16,7 +16,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:5174") // Vite dev server port
+@CrossOrigin(origins = {
+        "http://localhost:5174",
+        "http://localhost:5173"
+}) // Vite dev server port
 @RestController
 @RequestMapping("/api/discs")
 public class DiscController {

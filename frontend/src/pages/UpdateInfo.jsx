@@ -32,6 +32,16 @@ function UpdateDisc() {
         }));
     };
 
+    const handleNestedChange = (section, field, value) => {
+        setFormData(prev => ({
+            ...prev,
+            [section]: {
+                ...prev[section],
+                [field]: value
+            }
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -70,28 +80,139 @@ function UpdateDisc() {
 
                 {formData && (
                     <form onSubmit={handleSubmit}>
-                        {[
-                            'manufacturer', 'mold', 'plastic', 'color',
-                            'condition', 'description', 'contactFirstName',
-                            'contactLastName', 'contactPhone', 'foundAt', 'MSRP'
-                        ].map(field => (
-                            <div key={field}>
-                                <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-                                <input
-                                    type={field === 'condition' || field === 'MSRP' ? 'number' : 'text'}
-                                    name={field}
-                                    value={formData[field]}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        ))}
+                        <div>
+                            <label>Manufacturer</label>
+                            <input
+                                type="text"
+                                value={formData.manufacturer?.manufacturer || ''}
+                                onChange={(e) =>
+                                    handleNestedChange('manufacturer', 'manufacturer', e.target.value)
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label>Mold</label>
+                            <input
+                                type="text"
+                                value={formData.mold?.mold || ''}
+                                onChange={(e) =>
+                                    handleNestedChange('mold', 'mold', e.target.value)
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label>Plastic</label>
+                            <input
+                                type="text"
+                                name="plastic"
+                                value={formData.plastic || ''}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div>
+                            <label>Color</label>
+                            <input
+                                type="text"
+                                name="color"
+                                value={formData.color || ''}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div>
+                            <label>Condition</label>
+                            <input
+                                type="number"
+                                name="condition"
+                                value={formData.condition || ''}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div>
+                            <label>Description</label>
+                            <input
+                                type="text"
+                                name="description"
+                                value={formData.description || ''}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div>
+                            <label>Contact First Name</label>
+                            <input
+                                type="text"
+                                value={formData.contact?.firstName || ''}
+                                onChange={(e) =>
+                                    handleNestedChange('contact', 'firstName', e.target.value)
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label>Contact Last Name</label>
+                            <input
+                                type="text"
+                                value={formData.contact?.lastName || ''}
+                                onChange={(e) =>
+                                    handleNestedChange('contact', 'lastName', e.target.value)
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label>Contact Phone</label>
+                            <input
+                                type="text"
+                                value={formData.contact?.phone || ''}
+                                onChange={(e) =>
+                                    handleNestedChange('contact', 'phone', e.target.value)
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label>Found At</label>
+                            <input
+                                type="text"
+                                name="foundAt"
+                                value={formData.foundAt || ''}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div>
+                            <label>MSRP</label>
+                            <input
+                                type="number"
+                                name="msrp"
+                                step="0.01"
+                                value={formData.msrp || ''}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div>
+                            <label>Resale Value</label>
+                            <input
+                                type="number"
+                                name="resaleValue"
+                                step="0.01"
+                                value={formData.resaleValue || ''}
+                                onChange={handleChange}
+                            />
+                        </div>
 
                         <div>
                             <label>Returned</label>
                             <input
                                 type="checkbox"
                                 name="returned"
-                                checked={formData.returned}
+                                checked={formData.returned || false}
                                 onChange={handleChange}
                             />
                         </div>
@@ -101,7 +222,7 @@ function UpdateDisc() {
                             <input
                                 type="checkbox"
                                 name="sold"
-                                checked={formData.sold}
+                                checked={formData.sold || false}
                                 onChange={handleChange}
                             />
                         </div>

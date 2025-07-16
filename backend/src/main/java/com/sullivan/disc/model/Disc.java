@@ -32,7 +32,7 @@ public class Disc {
     @Column(name = "color", nullable = false)
     private String color;
 
-    @Column(name = "condition", nullable = false)
+    @Column(name = "`condition`", nullable = false)
     private Integer condition;
 
     @Column(name = "description")
@@ -54,6 +54,6 @@ public class Disc {
     @Column(name = "msrp", nullable = false)
     private BigDecimal msrp;
 
-    @Column(insertable = false, updatable = false) // Resale value is now calculated @ the DB level
+    @Column(name = "resale_value", insertable = false, updatable = false) // Resale value is now calculated @ the DB level
     private BigDecimal resaleValue;
 }

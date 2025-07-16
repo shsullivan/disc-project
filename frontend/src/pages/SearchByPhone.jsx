@@ -57,13 +57,13 @@ function SearchByLastName() {
                         {results.map(disc => (
                             <tr key={disc.discID}>
                                 <td>{disc.discID}</td>
-                                <td>{disc.manufacturer}</td>
-                                <td>{disc.mold}</td>
+                                <td>{disc.manufacturer?.manufacturer}</td>
+                                <td>{disc.mold?.mold}</td>
                                 <td>{disc.plastic}</td>
                                 <td>{disc.color}</td>
                                 <td>{disc.condition}</td>
-                                <td>{disc.contactFirstName} {disc.contactLastName}</td>
-                                <td>{disc.contactPhone}</td>
+                                <td>{disc.contact?.firstName} {disc.contact?.lastName}</td>
+                                <td>{disc.contact?.phone}</td>
                             </tr>
                         ))}
                         </tbody>
