@@ -1,16 +1,5 @@
 package com.sullivan.disc.service;
 
-/**
- * <h1>DiscService</h1>
- * @author Shawn Sullivan
- * CEN 3024C-31774
- * July 8, 2025
- * The DiscService class handles all business logic for the DISC app and acts as an intermediary between the repository
- * layer and the controller endpoint.
- * Note: Spring-managed repositories are temporarily unused due to project requirement for dynamic user DB config.
- * Kept in code for future use because I would like to expand on this project and/or use it as a learning tool
- * later.
- */
 
 import com.sullivan.disc.dto.DiscCreateDTO;
 import com.sullivan.disc.dto.DiscDTO;
@@ -42,6 +31,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * <h1>DiscService</h1>
+ * @author Shawn Sullivan
+ * CEN 3024C-31774
+ * July 8, 2025
+ * The DiscService class handles all business logic for the DISC app and acts as an intermediary between the repository
+ * layer and the controller endpoint.
+ * Note: Spring-managed repositories are temporarily unused due to project requirement for dynamic user DB config.
+ * Kept in code for future use because I would like to expand on this project and/or use it as a learning tool
+ * later.
+ */
 @Service
 public class DiscService {
 
@@ -74,7 +74,7 @@ public class DiscService {
      * Query for getAllReturned and getAllSold is repetitive so created a method to call to increase code readability
      * @param attribute is either "returned" or "sold" and allows the method to create a custom DB query for the desired
      * attribute
-     * @return  List<DiscDTO> the method searches the database for matching records and returns them as a list of
+     * @return  List the method searches the database for matching records and returns them as a list of
      * DiscDTOs to be passed to the UI via the controller layer and displayed to the user
      */
     private List<DiscDTO> getDiscByBooleanAttribute(String attribute) {
@@ -189,7 +189,7 @@ public class DiscService {
 
     /**
      * Query database for all disc records then return a list of DiscDTOs to supply to frontend
-     * @return List<DiscDTO> that can be translated to json that the UI can read and display
+     * @return List that can be translated to json that the UI can read and display
      */
     public List<DiscDTO> getAllDiscs() {
         EntityManager em = getEntityManager();
@@ -210,7 +210,7 @@ public class DiscService {
     /**
      * Query database for all discs marked returned == true. Utilizes getDiscByBooleanAttribute helper method and
      * allows the user to track returned discs at the UI level
-     * @return List<DiscDTO> that can be interpreted by the UI and displayed to the user
+     * @return List that can be interpreted by the UI and displayed to the user
      */
     public List<DiscDTO> getAllReturned() {
         return getDiscByBooleanAttribute("returned");
@@ -224,7 +224,7 @@ public class DiscService {
     /**
      * Query database for all discs marked sold == true. Utilizes getDiscByBooleanAttribute helper and allows user to
      * track sold discs at the UI level
-     * @return List<DiscDTO> that can be converted to JSON and displayed by the frontend UI
+     * @return List that can be converted to JSON and displayed by the frontend UI
      */
     public List<DiscDTO> getAllSold() {
         return getDiscByBooleanAttribute("sold");
@@ -238,7 +238,7 @@ public class DiscService {
     /**
      * Query database for a specific disc record with the provided disc_id returns an Optional incaseID does not exist
      * @param id is provided by the user on the frontend and should correspond with a disc_id record attribute
-     * @return Optional<DiscDTO> Optional returned to account for the case that a record does not exist.
+     * @return Optional returned to account for the case that a record does not exist.
      */
     public Optional<DiscDTO> findByID(Integer id) {
         EntityManager em = getEntityManager();
@@ -253,7 +253,7 @@ public class DiscService {
      * Discs typically have a persons name sharpied on them at a minimum. This allows the user to easily locate disc
      * records associated with a particular last name.
      * @param lastName corresponds with a last name in the last_name column of the Contact DB table
-     * @return List<DiscDTO> that can then be translated to JSON and displayed to the user on the frontend
+     * @return List that can then be translated to JSON and displayed to the user on the frontend
      */
     public List<DiscDTO> findByLastName(String lastName) {
         EntityManager em = getEntityManager();
@@ -271,7 +271,7 @@ public class DiscService {
      * Discs sometimes have a persons phone info to make contacting them for return easier. This allows the user to
      * easily locate all discs associated with a particular contact phone number.
      * @param phoneNumber should correspond with a phone number in the Contact table of the DB
-     * @return List<DiscDTO> that can then be converted to JSON by the controller and sent to the UI to display onscreen
+     * @return List that can then be converted to JSON by the controller and sent to the UI to display onscreen
      */
     public List<DiscDTO> findByPhoneNumber(String phoneNumber) {
         EntityManager em = getEntityManager();
@@ -421,7 +421,7 @@ public class DiscService {
      * @param id should correspond to a disc_id in the Discs table of the DB
      * @param dto is a specialty DiscUpdateDTO generated from UI post inputs that can then be mapped to Disc entity
      * fields to update a database record.
-     * @return Optional<discDTO> to be send back to the UI by the DiscController to confirm that a disc has been updated
+     * @return Optional to be send back to the UI by the DiscController to confirm that a disc has been updated
      * and reflect the changes
      */
     public Optional<DiscDTO> updateDisc(Integer id, DiscUpdateDTO dto) {

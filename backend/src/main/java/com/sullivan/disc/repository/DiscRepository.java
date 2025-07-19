@@ -1,5 +1,12 @@
 package com.sullivan.disc.repository;
 
+
+
+import com.sullivan.disc.model.Disc;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
 /**
  * <h1>DiscRepository</h1>
  * @author Shawn Sullivan
@@ -11,12 +18,6 @@ package com.sullivan.disc.repository;
  * Kept in code for future use because I would like to expand on this project and/or use it as a learning tool
  * later.
  */
-
-import com.sullivan.disc.model.Disc;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
-
 public interface DiscRepository extends JpaRepository<Disc, Integer> {
 
 //    List<Disc> findByContact_LastName(String contactLastName);

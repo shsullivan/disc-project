@@ -1,5 +1,11 @@
 package com.sullivan.disc.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import lombok.*;
+
+import java.math.BigDecimal;
+
 /**
  * <h1>DiscUpdateDTO</h1>
  * @author Shawn Sullivan
@@ -8,13 +14,6 @@ package com.sullivan.disc.dto;
  * This class is a specialty DTO utilized by the UpdateDisc() method in the DiscService class to provide the backend
  * information for an existing disc in the DB that needs to have fields updated.
  */
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import lombok.*;
-
-import java.math.BigDecimal;
-
 // Lombok annotation to avoid boilerplate
 @Data
 @NoArgsConstructor

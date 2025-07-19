@@ -1,5 +1,12 @@
 package com.sullivan.disc.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
+
 /**
  * <h1>ImportResultDTO</h1>
  * @author Shawn Sullivan
@@ -9,14 +16,6 @@ package com.sullivan.disc.dto;
  * information to the front end to be displayed to the user whether lines of a text file were uploaded to the
  * DB
  */
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor

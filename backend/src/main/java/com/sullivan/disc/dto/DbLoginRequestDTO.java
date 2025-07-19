@@ -1,5 +1,10 @@
 package com.sullivan.disc.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * @author Shawn Sullivan
  * CEN 3024C-31774
@@ -7,12 +12,6 @@ package com.sullivan.disc.dto;
  * This DTO class allows database login information supplied by the user to be passed from the GUI to the backend and
  * used to initialize the standalone database.
  */
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Getter
 @Setter
 @NoArgsConstructor

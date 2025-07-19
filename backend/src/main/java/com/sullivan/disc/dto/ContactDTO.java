@@ -1,5 +1,12 @@
 package com.sullivan.disc.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * <h1>ContactDTO</h1>
  * @author Shawn Sullivan
@@ -8,14 +15,6 @@ package com.sullivan.disc.dto;
  * The ContactDTO is nested within the discCreateDTO and the DiscDTO classes and converted into contact
  * objects by the DiscService layer and back to DTOs by the DiscService layer to be sent out to the UI
  */
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

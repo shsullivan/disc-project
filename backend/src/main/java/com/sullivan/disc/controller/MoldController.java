@@ -1,14 +1,5 @@
 package com.sullivan.disc.controller;
 
-/**
- * <h1>MoldController</h1>
- * @author Shawn Sullivan
- * CEN 3024C - 31774
- * July 18, 2025
- * This controller class acts as an endpoint to allow the GUI to access information in the molds table of the DB so that
- * relevant information can be displayed to the user
- */
-
 import com.sullivan.disc.dto.MoldDTO;
 import com.sullivan.disc.model.Mold;
 import com.sullivan.disc.util.CustomDataSourceManager;
@@ -20,6 +11,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * <h1>MoldController</h1>
+ * @author Shawn Sullivan
+ * CEN 3024C - 31774
+ * July 18, 2025
+ * This controller class acts as an endpoint to allow the GUI to access information in the molds table of the DB so that
+ * relevant information can be displayed to the user
+ */
 @RestController
 @RequestMapping("/api/molds")
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
@@ -39,7 +38,7 @@ public class MoldController {
      * This endpoint facilitates a dropdown in the disc creation screen of the GUI that is filtered based on the
      * manufacturer selected by the user in a previous dropdown
      * @param manufacturerId the manufacturer_id used to narrow down molds available for the user to select
-     * @return ResponseEntity<?> sent to the UI to display the relevant molds to the user
+     * @return ResponseEntity sent to the UI to display the relevant molds to the user
      */
     @GetMapping("/by-manufacturer/{manufacturerId}")
     public ResponseEntity<?> getMoldsByManufacturer(@PathVariable int manufacturerId) {

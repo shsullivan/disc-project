@@ -1,5 +1,11 @@
 package com.sullivan.disc.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import lombok.*;
+
+import java.math.BigDecimal;
+
 /**
  * <h1>DiscCreateDTO</h1>
  * @author Shawn Sullivan
@@ -8,13 +14,6 @@ package com.sullivan.disc.dto;
  * This class is a specialty DTO utilized by the createDisc() method in the DiscService class to provide
  * information to the backend to create a new disc record based on JSON information supplied from the frontend
  */
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import lombok.*;
-
-import java.math.BigDecimal;
-
 // Lombok annotation to avoid boilerplate
 @Data
 @NoArgsConstructor

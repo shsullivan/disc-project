@@ -1,14 +1,5 @@
 package com.sullivan.disc.controller;
 
-/**
- * <h1>ManufacturerController</h1>
- * @author Shawn Sullivan
- * CEN 3024C - 31774
- * July 18, 2025
- * This controller class acts as an endpoint to allow the GUI to access information in the manufacturers table of the
- * DB so that relevant information can be displayed to the user
- */
-
 import com.sullivan.disc.dto.ManufacturerDTO;
 import com.sullivan.disc.model.Manufacturer;
 import com.sullivan.disc.util.CustomDataSourceManager;
@@ -23,6 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * <h1>ManufacturerController</h1>
+ * @author Shawn Sullivan
+ * CEN 3024C - 31774
+ * July 18, 2025
+ * This controller class acts as an endpoint to allow the GUI to access information in the manufacturers table of the
+ * DB so that relevant information can be displayed to the user
+ */
 @RestController
 @RequestMapping("/api/manufacturers")
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
@@ -42,7 +41,7 @@ public class ManufacturerController {
     /**
      * endpoint mapped to allow the GUI to display all manufacturers stored in the DB onscreen for the user to select
      * from the dropdown menu
-     * @return ResponseEntity<?> containing JSON information to be interpreted by the GUI and displayed to the user.
+     * @return ResponseEntity containing JSON information to be interpreted by the GUI and displayed to the user.
      */
     @GetMapping
     public ResponseEntity<?> getAllManufacturers() {

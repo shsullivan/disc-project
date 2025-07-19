@@ -1,5 +1,10 @@
 package com.sullivan.disc.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * <h1>Manufacturer Entity</h1>
  * @author Shawn Sullivan
@@ -8,12 +13,6 @@ package com.sullivan.disc.model;
  * This model/entity class mirrors the "manufacturers" database table and is required to implement JPA database
  * connectivity.
  */
-
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
 @Table(name = "manufacturers")
 @Data

@@ -1,5 +1,12 @@
 package com.sullivan.disc.model;
 
+
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * <h1>Contact Entity</h1>
  * @author Shawn Sullivan
@@ -7,12 +14,6 @@ package com.sullivan.disc.model;
  * July 12, 2025
  * This model/entity class mirrors the "contacts" database table and is required to implement JPA database connectivity.
  */
-
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
 @Table(name = "contacts")
 @Data

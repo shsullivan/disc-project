@@ -1,5 +1,10 @@
 package com.sullivan.disc.dto;
 
+import com.sullivan.disc.model.Disc;
+import lombok.*;
+
+import java.math.BigDecimal;
+
 /**
  * <h1>DiscDTO</h1>
  * @author Shawn Sullivan
@@ -8,12 +13,6 @@ package com.sullivan.disc.dto;
  * This class is the main DTO utilized by the several methods in the DiscService class to provide disc
  * information to the frontend to be displayed to the user and disc information to the backend to interact with records
  */
-
-import com.sullivan.disc.model.Disc;
-import lombok.*;
-
-import java.math.BigDecimal;
-
 // Lombok annotations to avoid boiler plate code
 @Data
 @NoArgsConstructor(force = true)

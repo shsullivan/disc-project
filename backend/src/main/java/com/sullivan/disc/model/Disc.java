@@ -1,5 +1,12 @@
 package com.sullivan.disc.model;
 
+
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.math.BigDecimal;
+
 /**
  * <h1>Disc Entity</h1>
  * @author Shawn Sullivan
@@ -8,12 +15,6 @@ package com.sullivan.disc.model;
  * This model/entity class mirrors the "discs" database table and is required to implement JPA database connectivity.
  * It is also the key object in this DBMS Application
  */
-
-import jakarta.persistence.*;
-import lombok.*;
-
-import java.math.BigDecimal;
-
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Data

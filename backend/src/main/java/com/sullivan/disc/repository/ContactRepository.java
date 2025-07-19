@@ -1,5 +1,12 @@
 package com.sullivan.disc.repository;
 
+
+
+import com.sullivan.disc.model.Contact;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
 /**
  * <h1>ContactRepository</h1>
  * @author Shawn Sullivan
@@ -11,12 +18,6 @@ package com.sullivan.disc.repository;
  * Kept in code for future use because I would like to expand on this project and/or use it as a learning tool
  * later.
  */
-
-import com.sullivan.disc.model.Contact;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
-
 public interface ContactRepository extends JpaRepository<Contact, Integer> {
 
     /**
@@ -27,5 +28,5 @@ public interface ContactRepository extends JpaRepository<Contact, Integer> {
      * @param phoneNumber contact phone_number provided via a ContactDTO sent from the frontend
      * @return
      */
-    Optional<Contact> findByFirstNameAndLastNameAndPhoneNumber(String firstName, String  lastName, String phoneNumber);
+    //Optional<Contact> findByFirstNameAndLastNameAndPhoneNumber(String firstName, String  lastName, String phoneNumber);
 }

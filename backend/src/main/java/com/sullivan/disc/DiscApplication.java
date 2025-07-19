@@ -1,4 +1,11 @@
 package com.sullivan.disc;
+
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+//import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+
 /**
  * <h1>D.I.S.C. Application</h1>
  * @author Shawn Sullivan
@@ -8,12 +15,6 @@ package com.sullivan.disc;
  * found disc golf discs in a dedicated database. A Spring Boot Rest API manages all interactions between the
  * React web based front end and the database.
  */
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-//import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-
 @SpringBootApplication
 public class DiscApplication {
 
