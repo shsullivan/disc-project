@@ -1,5 +1,14 @@
 package com.sullivan.disc.mapper;
 
+/**
+ * <h1>DiscMapper</h1>
+ * @author Shawn Sullivan
+ * CEN 3024C-31774
+ * July 8, 2025
+ * The DiscMapper class is utilized by both the DiscService class/layer and DiscController class/layer to transition
+ * DTOs provided by the frontend to disc entities that can be recorded in the DB and vice versa.
+ */
+
 import com.sullivan.disc.dto.*;
 import com.sullivan.disc.model.Contact;
 import com.sullivan.disc.model.Disc;

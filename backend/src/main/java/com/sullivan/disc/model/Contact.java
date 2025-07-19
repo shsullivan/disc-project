@@ -1,7 +1,8 @@
 package com.sullivan.disc.model;
 
-/*
- * Shawn Sullivan
+/**
+ * <h1>Contact Entity</h1>
+ * @author Shawn Sullivan
  * CEN 3024C-31774
  * July 12, 2025
  * This model/entity class mirrors the "contacts" database table and is required to implement JPA database connectivity.

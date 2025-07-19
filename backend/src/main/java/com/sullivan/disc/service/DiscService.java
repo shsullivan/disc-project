@@ -1,7 +1,8 @@
 package com.sullivan.disc.service;
 
-/*
- * Shawn Sullivan
+/**
+ * <h1>DiscService</h1>
+ * @author Shawn Sullivan
  * CEN 3024C-31774
  * July 8, 2025
  * The DiscService class handles all business logic for the DISC app and acts as an intermediary between the repository
@@ -51,6 +52,14 @@ public class DiscService {
     private final DiscMapper discMapper;
     private final CustomDataSourceManager dataSourceManager;
 
+    /**
+     * This constructor allows an instance of the DiscService class to be instantiated and utilized in the
+     * DiscController class so that DTOs can be passed from the UI through the DiscController to the DiscService and
+     * later to the repository
+     * @param discMapper instance of the DiscMapper class that handles conversion of DTOs to Disc entities and vice versa
+     * @param dataSourceManager a dataSourceManager must be instantiated to allow the DiscService class to pass disc
+     * entities to the data repository layer
+     */
     public DiscService(DiscMapper discMapper,
                       CustomDataSourceManager dataSourceManager) {
         this.discMapper = discMapper;
@@ -61,11 +70,12 @@ public class DiscService {
         return dataSourceManager.getEntityManagerFactory().createEntityManager();
     }
 
-    /*
-     * Method: GetDiscByBooleanAttribute
-     * Description: Query for getAllReturned and getAllSold is repetitive so created a method to call instead
-     * Args: String attribute
-     * Return: List<DiscDTO>
+    /**
+     * Query for getAllReturned and getAllSold is repetitive so created a method to call to increase code readability
+     * @param attribute is either "returned" or "sold" and allows the method to create a custom DB query for the desired
+     * attribute
+     * @return  List<DiscDTO> the method searches the database for matching records and returns them as a list of
+     * DiscDTOs to be passed to the UI via the controller layer and displayed to the user
      */
     private List<DiscDTO> getDiscByBooleanAttribute(String attribute) {
         EntityManager em = getEntityManager();
@@ -81,11 +91,12 @@ public class DiscService {
         return discs.stream().map(discMapper::discToDiscDTO).collect(Collectors.toList());
     }
 
-    /*
-     * Method: createDisc
-     * Description: Create a new disc record in the database
-     * Args: DiscCreateDTO
-     * Return: DiscDTO
+    /**
+     * This method takes the information contained in a DiscCreate DTO passed from the frontend, and processes it to
+     * create a new Disc record in the DB as well as a new contact record if one does not already exist for the provided
+     * contact entity
+     * @param dto is a data transfer object created from json information passed by the UI to the DiscController class
+     * @return DiscDTO that is converted by the DiscController to information that can be displayed on the UI
      */
     public DiscDTO createDisc(DiscCreateDTO dto) {
         EntityManager em = getEntityManager();
@@ -150,12 +161,11 @@ public class DiscService {
 //        return discMapper.discToDiscDTO(disc);
 //    }
 
-    /*
-     * Method: GetDiscByBooleanAttribute
-     * Description: Delete a disc from the database records. True and false values signal to the control and
-     * frontend for user feedback
-     * Args: Integer
-     * Return: boolean
+    /**
+     * This method deletes a Disc record from the database permanently.
+     * @param id corresponds to a disc_id record field in the database that is then deleted from the DB
+     * @return boolean the boolean value is sent to the DiscController to then signal to the UI to display a success or
+     * failure message
      */
     public boolean deleteDisc(Integer id) {
             EntityManager em = getEntityManager();
@@ -177,11 +187,9 @@ public class DiscService {
 //        return false;
 //    }
 
-    /*
-     * Method: getAllDiscs
-     * Description: Query database for all disc records then return a list of DiscDTOs to supply to frontend
-     * Args: None
-     * Return: List<DiscDTO>
+    /**
+     * Query database for all disc records then return a list of DiscDTOs to supply to frontend
+     * @return List<DiscDTO> that can be translated to json that the UI can read and display
      */
     public List<DiscDTO> getAllDiscs() {
         EntityManager em = getEntityManager();
@@ -199,11 +207,10 @@ public class DiscService {
 //                             .collect(Collectors.toList());
 //    }
 
-    /*
-     * Method: getAllReturned
-     * Description: Query database for all discs marked returned == true. Utilizes getDiscByBooleanAttribute helper.
-     * Args: None
-     * Return: List<DiscDTO>
+    /**
+     * Query database for all discs marked returned == true. Utilizes getDiscByBooleanAttribute helper method and
+     * allows the user to track returned discs at the UI level
+     * @return List<DiscDTO> that can be interpreted by the UI and displayed to the user
      */
     public List<DiscDTO> getAllReturned() {
         return getDiscByBooleanAttribute("returned");
@@ -214,11 +221,10 @@ public class DiscService {
 //                             .collect(Collectors.toList());
 //    }
 
-    /*
-     * Method: getAllSold
-     * Description: Query database for all discs marked sold == true. Utilizes getDiscByBooleanAttribute helper.
-     * Args: None
-     * Return: List<DiscDTO>
+    /**
+     * Query database for all discs marked sold == true. Utilizes getDiscByBooleanAttribute helper and allows user to
+     * track sold discs at the UI level
+     * @return List<DiscDTO> that can be converted to JSON and displayed by the frontend UI
      */
     public List<DiscDTO> getAllSold() {
         return getDiscByBooleanAttribute("sold");
@@ -229,12 +235,10 @@ public class DiscService {
 //                             .collect(Collectors.toList());
 //    }
 
-    /*
-     * Method: findByID
-     * Description: Query database for a specific disc record with the provided disc_id returns an Optional incase
-     * ID does not exist
-     * Args: Integer id
-     * Return: Optional<DiscDTO>
+    /**
+     * Query database for a specific disc record with the provided disc_id returns an Optional incaseID does not exist
+     * @param id is provided by the user on the frontend and should correspond with a disc_id record attribute
+     * @return Optional<DiscDTO> Optional returned to account for the case that a record does not exist.
      */
     public Optional<DiscDTO> findByID(Integer id) {
         EntityManager em = getEntityManager();
@@ -245,12 +249,11 @@ public class DiscService {
 //        return discRepository.findById(id).map(discMapper::discToDiscDTO);
 //    }
 
-    /*
-     * Method: findByLastName
-     * Description: Query database for a specific disc record with the provided last name. Returns a list of discs to
-     * display on frontend
-     * Args: String lastName
-     * Return: List<DiscDTO>
+    /**
+     * Discs typically have a persons name sharpied on them at a minimum. This allows the user to easily locate disc
+     * records associated with a particular last name.
+     * @param lastName corresponds with a last name in the last_name column of the Contact DB table
+     * @return List<DiscDTO> that can then be translated to JSON and displayed to the user on the frontend
      */
     public List<DiscDTO> findByLastName(String lastName) {
         EntityManager em = getEntityManager();
@@ -264,12 +267,11 @@ public class DiscService {
 //                .collect(Collectors.toList());
 //    }
 
-    /*
-     * Method: findByPhoneNumber
-     * Description: Query database for a specific disc record with the provided phone number. Returns a list of discs to
-     * display on frontend
-     * Args: String phoneNumber
-     * Return: List<DiscDTO>
+    /**
+     * Discs sometimes have a persons phone info to make contacting them for return easier. This allows the user to
+     * easily locate all discs associated with a particular contact phone number.
+     * @param phoneNumber should correspond with a phone number in the Contact table of the DB
+     * @return List<DiscDTO> that can then be converted to JSON by the controller and sent to the UI to display onscreen
      */
     public List<DiscDTO> findByPhoneNumber(String phoneNumber) {
         EntityManager em = getEntityManager();
@@ -284,12 +286,14 @@ public class DiscService {
 //    }
 
 
-    /*
-     * Method: importFromTextFile
-     * Description: Inserts new records into the database by reading and interpreting data from a text file delimited
-     * by "-" characters
-     * Args: MultipartFile file
-     * Return: ImportResultDTO
+    /**
+     * Entering each disc record manually can be tedious. On the frontend the user has the option to upload a .txt file
+     * with values separated by "-" characters. This method then parses those values into their associated Disc entity
+     * attributes, validates them, and attempts to create a new Disc record in the DB using those validated attributes
+     * @param file the file provided by the user via the UI and passed by the controller
+     * @return ImportResultDTO is a specialty data transfer object that is interpreted by the UI to display whether the
+     * disc record creation was successful or failed for each line of the .txt file
+     * @throws IOException incase the file provided is corrupted on invalid
      */
     public ImportResultDTO importFromTextFile(MultipartFile file) throws IOException {
         List<String> successes = new ArrayList<>();
@@ -410,11 +414,15 @@ public class DiscService {
         }
         return new ImportResultDTO(successes, failures);
     }
-    /*
-     * Method: updateDisc
-     * Description: Updates a DB record based on information provided in DTO from frontend
-     * Args: Integer id, DiscUpdateDTO dto
-     * Return: Optional<DTO>
+
+    /**
+     * Users should be able to update information regarding a disc record at any time. This method facilitates the user
+     * updating information for discs that already exist in the DB
+     * @param id should correspond to a disc_id in the Discs table of the DB
+     * @param dto is a specialty DiscUpdateDTO generated from UI post inputs that can then be mapped to Disc entity
+     * fields to update a database record.
+     * @return Optional<discDTO> to be send back to the UI by the DiscController to confirm that a disc has been updated
+     * and reflect the changes
      */
     public Optional<DiscDTO> updateDisc(Integer id, DiscUpdateDTO dto) {
         EntityManager em = getEntityManager();

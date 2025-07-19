@@ -1,5 +1,14 @@
 package com.sullivan.disc.dto;
 
+/**
+ * <h1>ContactDTO</h1>
+ * @author Shawn Sullivan
+ * CEN 3024C - 31774
+ * July 18, 2025
+ * The ContactDTO is nested within the discCreateDTO and the DiscDTO classes and converted into contact
+ * objects by the DiscService layer and back to DTOs by the DiscService layer to be sent out to the UI
+ */
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

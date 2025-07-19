@@ -1,11 +1,15 @@
 package com.sullivan.disc.util;
 
-/*
- * Shawn Sullivan
+/**
+ * <h1>Class: CustomDataSourceManager</h1>
+ * @author Shawn Sullivan
  * CEN 3024C-31774
- * July 8, 2025
- * This utility class dynamically constructs and manages the standalone database access facilitating a user login
- * function.
+ * July 18, 2025
+ *  Normally Spring autocaches user login information from Windows system settings on boot and uses them to immediately
+ *  scan for repositories and entities and begin mananging them, but the DMS Project requires that the user provide
+ *  their own database login credentials to initialize the database. To accomplish that, Springs data source
+ *  connectivity manager, entity manager, and transaction manager must be disabled and initialized manually after the
+ *  user has provided their login credentials. The CustomDataSourceManager does that.
  */
 
 import com.sullivan.disc.dto.DbLoginRequestDTO;
@@ -33,12 +37,12 @@ public class CustomDataSourceManager {
     private EntityManagerFactory entityManagerFactory;
     private PlatformTransactionManager transactionManager;
 
-    /*
-     * Method: InitDataSource
-     * Description: Method takes a DBLoginRequest DTO collected from the UI and converts use that info to initialize
+    /**
+     * Method takes a DBLoginRequest DTO collected from the UI and uses that info to initialize
      * the data source for the App (MySQL Database)
-     * Args: DbLoginRequest
-     * Return: Void
+     * @param request is a data transfer object generated from form post information sent from the web UI
+     * containing database host and login information
+     * @throws IllegalStateException if the EntityManagerFactory fails to initialize for any reason.
      */
     public void initDataSource(DbLoginRequestDTO request) throws SQLException {
         String jdbcUrl = "jdbc:mysql://" + request.host + ":" + request.port + "/disc_system";
@@ -54,12 +58,14 @@ public class CustomDataSourceManager {
             this.dataSource = ds;
         }
 
-        // Set up JPA EntityManagerFactory to allow for custom login
+        // Set up JPA EntityManagerFactory so that Spring will begin entity management scanning after DB login
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(ds);
         factory.setPackagesToScan("com.sullivan.disc.model");
         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
+        // Set up JPA hibernate functionality after DB login info has been provided
+        // This is normally autoconfigured by Spring on boot.
         Map<String, Object> jpaProperties = new HashMap<>();
         jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         jpaProperties.put("hibernate.hbm2ddl.auto", "none");

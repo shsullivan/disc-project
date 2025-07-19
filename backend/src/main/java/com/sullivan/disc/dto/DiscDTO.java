@@ -1,5 +1,14 @@
 package com.sullivan.disc.dto;
 
+/**
+ * <h1>DiscDTO</h1>
+ * @author Shawn Sullivan
+ * CEN 3024C - 31774
+ * July 18, 2025
+ * This class is the main DTO utilized by the several methods in the DiscService class to provide disc
+ * information to the frontend to be displayed to the user and disc information to the backend to interact with records
+ */
+
 import com.sullivan.disc.model.Disc;
 import lombok.*;
 

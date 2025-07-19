@@ -1,5 +1,14 @@
 package com.sullivan.disc.dto;
 
+/**
+ * <h1>DiscCreateDTO</h1>
+ * @author Shawn Sullivan
+ * CEN 3024C - 31774
+ * July 18, 2025
+ * This class is a specialty DTO utilized by the createDisc() method in the DiscService class to provide
+ * information to the backend to create a new disc record based on JSON information supplied from the frontend
+ */
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;

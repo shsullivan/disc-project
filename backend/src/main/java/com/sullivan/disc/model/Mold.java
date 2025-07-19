@@ -1,5 +1,12 @@
 package com.sullivan.disc.model;
 
+/**
+ * <h1>Mold Entity</h1>
+ * @author Shawn Sullivan
+ * CEN 3024C-31774
+ * July 12, 2025
+ * This model/entity class mirrors the "molds" database table and is required to implement JPA database connectivity.
+ */
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.sullivan.disc.dto;
 
-/*
- * Shawn Sullivan
+/**
+ * @author Shawn Sullivan
  * CEN 3024C-31774
  * July 8, 2025
  * This DTO class allows database login information supplied by the user to be passed from the GUI to the backend and

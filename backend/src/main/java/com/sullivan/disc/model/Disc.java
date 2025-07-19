@@ -1,5 +1,14 @@
 package com.sullivan.disc.model;
 
+/**
+ * <h1>Disc Entity</h1>
+ * @author Shawn Sullivan
+ * CEN 3024C-31774
+ * July 12, 2025
+ * This model/entity class mirrors the "discs" database table and is required to implement JPA database connectivity.
+ * It is also the key object in this DBMS Application
+ */
+
 import jakarta.persistence.*;
 import lombok.*;
 

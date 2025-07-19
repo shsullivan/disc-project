@@ -1,5 +1,14 @@
 package com.sullivan.disc.dto;
 
+/**
+ * <h1>DiscUpdateDTO</h1>
+ * @author Shawn Sullivan
+ * CEN 3024C - 31774
+ * July 18, 2025
+ * This class is a specialty DTO utilized by the UpdateDisc() method in the DiscService class to provide the backend
+ * information for an existing disc in the DB that needs to have fields updated.
+ */
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
